@@ -6,23 +6,39 @@ void keyboard()
 
  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
  {
-     move_id='A';
-    tetris_move_left();
+  move_id='A';
+  tetris_move_left();
  }
  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
  {
-     move_id='D';
-     tetris_move_right();
+  move_id='D';
+  tetris_move_right();
  }
  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
  {
-     move_id='W';
-     tetris_move_up();
+  move_id='W';
+  tetris_move_up();
  }
  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
  {
-     move_id='S';
-     tetris_move_down();
+  move_id='S';
+  tetris_move_down();
+ }
+
+ if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+ {
+  move_id='Z';
+  block_rotate_left_basic();
+ }
+ if(sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+ {
+  move_id='X';
+  block_rotate_right_basic();
+ }
+ if(sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+ {
+  move_id='C';
+  block_hold();
  }
 
 }
