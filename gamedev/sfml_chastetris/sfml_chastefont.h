@@ -54,11 +54,17 @@ struct chaste_font chaste_font_load(const char *s)
 
 printf("Size of loaded font is %d,%d\n",new_font.char_width,new_font.char_height);
 
+new_font.image.createMaskFromColor(sf::Color(255,255,255));
+
  /*now that the font is loaded and we know the dimensions, create a texture from it*/
- new_font.texture.loadFromImage(new_font.image);
+ if(!new_font.texture.loadFromImage(new_font.image))
+ {
+  printf("Error loading texture: %s\n",s);
+ }
 
  /*then load the texture into a sprite(this is drawable)*/
  new_font.sprite.setTexture(new_font.texture);
+
 
  return new_font;
 }
@@ -70,7 +76,6 @@ void test_font_image()
 {
  int x,y,w,h;
  sf::Color color;
- sf::Uint32 intcolor;
  sf::Vector2u v=main_font.image.getSize();
  w=v.x;
  h=v.y;
@@ -86,9 +91,7 @@ void test_font_image()
   while(x<w)
   {
    color=main_font.image.getPixel(x,y);
-   intcolor=color.toInteger();
-   //printf("%d,%d = R%d,G%d,B%d A%d\n",x,y,color.r,color.g,color.b,color.a);
-   printf("%d,%d = tointeger%d\n",x,y,intcolor);
+   printf("%d,%d = R%d,G%d,B%d A%d\n",x,y,color.r,color.g,color.b,color.a);
    x++;
   }
   y++;
