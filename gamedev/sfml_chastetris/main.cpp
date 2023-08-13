@@ -40,7 +40,7 @@ int main()
 
  main_font=chaste_font_load("./font/FreeBASIC Font 8.png");
 
-
+test_font_image();
 
  title_screen();
 

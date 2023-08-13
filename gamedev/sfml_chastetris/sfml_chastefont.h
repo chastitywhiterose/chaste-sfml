@@ -65,3 +65,36 @@ printf("Size of loaded font is %d,%d\n",new_font.char_width,new_font.char_height
 
 
 
+
+void test_font_image()
+{
+ int x,y,w,h;
+ sf::Color color;
+ sf::Uint32 intcolor;
+ sf::Vector2u v=main_font.image.getSize();
+ w=v.x;
+ h=v.y;
+
+ printf("Size of font image is %d,%d\n",w,h);
+
+ printf("Testing pixels next\n");
+
+ y=0;
+ while(y<h)
+ {
+  x=0;
+  while(x<w)
+  {
+   color=main_font.image.getPixel(x,y);
+   intcolor=color.toInteger();
+   //printf("%d,%d = R%d,G%d,B%d A%d\n",x,y,color.r,color.g,color.b,color.a);
+   printf("%d,%d = tointeger%d\n",x,y,intcolor);
+   x++;
+  }
+  y++;
+ }
+
+ 
+
+}
+

@@ -36,7 +36,7 @@ void title_screen()
   circle.setPosition(sf::Vector2f(500.f, 300.f));
   window.draw(circle);
 
-  main_font.sprite.setColor(sf::Color(0,255,0)); // green
+  //main_font.sprite.setColor(sf::Color(0,255,0)); // green
   window.draw(main_font.sprite);
 
   window.display();
