@@ -1,0 +1,11 @@
+This is the way I compile on my Macbook:
+
+First, the command I use on Linux is:
+
+g++ -Wall -ansi -pedantic main.cpp -o main -lsfml-graphics -lsfml-window -lsfml-system && ./main
+
+And it works because paths are standard.
+
+/opt/homebrew/include
+
+g++ -Wall -ansi -pedantic main.cpp -o main -I/opt/homebrew/include -L/opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system && ./main
