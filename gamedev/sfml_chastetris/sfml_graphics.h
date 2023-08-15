@@ -46,11 +46,13 @@ void title_screen()
   while (window.pollEvent(event))
   {
    if(event.type == sf::Event::Closed) {loop=0;}
-   if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){loop=0;}
+   if(event.type == sf::Event::KeyPressed)
+   {
+    if(event.key.code==sf::Keyboard::Escape){loop=0;}
+   }
   }
 
  }
-
 }
 
 
@@ -238,7 +240,6 @@ window.draw(rectangle);
   while (window.pollEvent(event))
   {
    if(event.type == sf::Event::Closed) {loop=0;}
-   if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){loop=0;}
    keyboard();
   }
 

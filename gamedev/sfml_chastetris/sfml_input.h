@@ -7,6 +7,11 @@ void keyboard()
  if(event.type == sf::Event::KeyPressed)
  {
 
+  if(event.key.code==sf::Keyboard::Escape)
+  {
+   loop=0;
+  }
+
   if(event.key.code==sf::Keyboard::Left)
   {
    move_id='A';
