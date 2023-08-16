@@ -15,7 +15,6 @@ struct chaste_font
  int char_height; /*height of a char*/
  sf::Image image; /*the image of loaded font*/
  sf::Texture texture; /*the texture of this font which will be loaded from surface*/
- sf::Sprite sprite; /*sprite which will use texture for actual drawing*/
 };
 
 
@@ -54,17 +53,13 @@ struct chaste_font chaste_font_load(const char *s)
 
 printf("Size of loaded font is %d,%d\n",new_font.char_width,new_font.char_height);
 
-new_font.image.createMaskFromColor(sf::Color(255,255,255));
+ new_font.image.createMaskFromColor(sf::Color(0,0,0));
 
  /*now that the font is loaded and we know the dimensions, create a texture from it*/
  if(!new_font.texture.loadFromImage(new_font.image))
  {
   printf("Error loading texture: %s\n",s);
  }
-
- /*then load the texture into a sprite(this is drawable)*/
- new_font.sprite.setTexture(new_font.texture);
-
 
  return new_font;
 }
@@ -75,6 +70,7 @@ new_font.image.createMaskFromColor(sf::Color(255,255,255));
 void test_font_image()
 {
  int x,y,w,h;
+ sf::Uint32 intcolor;
  sf::Color color;
  sf::Vector2u v=main_font.image.getSize();
  w=v.x;
@@ -91,13 +87,89 @@ void test_font_image()
   while(x<w)
   {
    color=main_font.image.getPixel(x,y);
-   printf("%d,%d = R%d,G%d,B%d A%d\n",x,y,color.r,color.g,color.b,color.a);
+   //printf("%d,%d = R%d,G%d,B%d A%d\n",x,y,color.r,color.g,color.b,color.a);
+   intcolor=color.toInteger()>>8;
+   printf("intcolor=%X\n",intcolor);
    x++;
   }
   y++;
  }
-
- 
-
 }
+
+
+
+
+/*
+ this function successfully draws a string of characters from the loaded font
+ arguments are: character pointer, character x pos, character y pos
+*/
+void chaste_font_draw_string(const char *s,int cx,int cy)
+{
+ int x,y,i,c,cx_start=cx;
+ sf::IntRect rect_source,rect_dest;
+ i=0;
+ while(s[i]!=0)
+ {
+  c=s[i];
+  if(c=='\n'){ cx=cx_start; cy+=main_font.char_height;}
+  else
+  {
+   x=(c-' ')*main_font.char_width;
+   y=0*main_font.char_height;
+
+   rect_source.left=x;
+   rect_source.top=y;
+   rect_source.width=main_font.char_width;
+   rect_source.height=main_font.char_height;
+
+   rect_dest=rect_source;
+   rect_dest.left=cx;
+   rect_dest.top=cy;
+
+   //draw sprite from this section of the texture 
+   sf::Sprite sprite(main_font.texture,rect_source);
+   sprite.setPosition(cx,cy);
+   window.draw(sprite);
+
+   cx+=main_font.char_width;
+  }
+  i++;
+ }
+}
+
+
+
+void chaste_font_draw_string_scaled(const char *s,int cx,int cy,int scale)
+{
+ int x,y,i,c,cx_start=cx;
+ sf::IntRect rect_source,rect_dest;
+ i=0;
+ while(s[i]!=0)
+ {
+  c=s[i];
+  if(c=='\n'){ cx=cx_start; cy+=main_font.char_height*scale;}
+  else
+  {
+   x=(c-' ')*main_font.char_width;
+   y=0*main_font.char_height;
+
+
+  rect_source.left=x;
+   rect_source.top=y;
+   rect_source.width=main_font.char_width;
+   rect_source.height=main_font.char_height;
+
+   //draw sprite from this section of the texture 
+   sf::Sprite sprite(main_font.texture,rect_source);
+   sprite.setPosition(cx,cy);
+   sprite.setScale(scale,scale);
+   window.draw(sprite);
+
+   cx+=main_font.char_width*scale;
+  }
+  i++;
+ }
+}
+
+
 

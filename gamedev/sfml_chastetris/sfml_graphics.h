@@ -37,7 +37,16 @@ void title_screen()
   window.draw(circle);
 
   //main_font.sprite.setColor(sf::Color(0,255,0)); // green
-  window.draw(main_font.sprite);
+  //window.draw(main_font.sprite);
+
+  sf::Sprite sp(main_font.texture);
+
+window.draw(sp);
+
+chaste_font_draw_string("hello",100,100);
+
+chaste_font_draw_string_scaled("world",100,300,8);
+
 
   window.display();
 

@@ -35,13 +35,13 @@ sf::IntRect rect;
 
 int main()
 {
- window.create(sf::VideoMode(width,height),"SFML Level 2");
+ window.create(sf::VideoMode(width,height),"SFML Chaste Tris");
  window.setKeyRepeatEnabled(false);
 
  main_font=chaste_font_load("./font/FreeBASIC Font 8.png");
 
 
-main_font.sprite.setPosition(100, 25);
+ //main_font.sprite.setPosition(100, 25);
 
  //test_font_image();
 
