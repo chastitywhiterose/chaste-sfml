@@ -35,23 +35,52 @@ sf::IntRect rect;
 
 int main()
 {
+ int x;
+
+ /*high definition*/
+ if(0){width=1920;height=1080;}
+
  window.create(sf::VideoMode(width,height),"SFML Chaste Tris");
  window.setKeyRepeatEnabled(false);
 
+ sprintf(filename,"imovelog.txt");
+ fp_input=fopen(filename,"rb+");
+ if(fp_input==NULL)
+ {
+  printf("Failed to open input file \"%s\".\n",filename);
+  printf("This is not an error. It just means input is keyboard only. \"%s\".\n",filename);
+ }
+ else
+ {
+  printf("input file \"%s\" is opened.\n",filename);
+  printf("Will read commands from this file before keyboard. \"%s\".\n",filename);
+ }
+
  sprintf(gamename,"Chaste Tris");
-
  main_font=chaste_font_load("./font/FreeBASIC Font 8.png");
-
  chaste_palette_rainbow(40);
-
- //test_font_image();
-
  title_screen();
-
  sfml_chastetris();
-
  window.close();
 
-return 0;
+ /*open the file to record moves*/
+ sprintf(filename,"omovelog.txt");
+ fp=fopen(filename,"wb+");
+ if(fp==NULL){printf("Failed to create file \"%s\".\n",filename);}
+ else
+ {
+  x=0;
+  while(x<moves)
+  {
+   /*printf("%d %c\n",x,move_log[x]);*/
+   fputc(move_log[x],fp);
+   x++;
+  }
+ }
+
+ if(fp!=NULL){fclose(fp);}
+ if(fp_input!=NULL){fclose(fp_input);}
+
+ return 0;
 }
 
