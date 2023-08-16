@@ -38,16 +38,17 @@ int main()
  window.create(sf::VideoMode(width,height),"SFML Chaste Tris");
  window.setKeyRepeatEnabled(false);
 
+ sprintf(gamename,"Chaste Tris");
+
  main_font=chaste_font_load("./font/FreeBASIC Font 8.png");
 
-
- //main_font.sprite.setPosition(100, 25);
+ chaste_palette_rainbow(40);
 
  //test_font_image();
 
  title_screen();
 
- //sfml_chastetris();
+ sfml_chastetris();
 
  window.close();
 

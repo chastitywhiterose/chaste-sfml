@@ -2,53 +2,62 @@
 
 void title_screen()
 {
- sf::RectangleShape rectangle(sf::Vector2f(10,10));
- sf::CircleShape circle(10.f);
+ int scale=8;
+ text_x=width/100;
 
+ delay=1000/fps;
+
+ loop=1;
  while(loop)
  {
-  //drawing section
-   window.clear();
+  sftime=sfclock.getElapsedTime();
+  mill=sftime.asMilliseconds();
+  mill1=mill+delay;
 
-  rectangle.setSize(sf::Vector2f(100,100));
-  rectangle.setFillColor(sf::Color(0,0,255));   
-  rectangle.setPosition(sf::Vector2f(100.f, 100.f));
-  window.draw(rectangle);
+  window.clear();
 
-  rectangle.setFillColor(sf::Color(0,255,0));   
-  rectangle.setPosition(sf::Vector2f(300.f, 100.f));
-  window.draw(rectangle);
+ scale=width/100;
+ sprintf(text,"%s",gamename);
 
-  rectangle.setFillColor(sf::Color(255,0,0));   
-  rectangle.setPosition(sf::Vector2f(500.f, 100.f));
-  window.draw(rectangle);
+ /*chaste_font_draw_string_scaled(text,text_x,height/32,scale);*/
 
-  circle.setRadius(50);
-  circle.setFillColor(sf::Color(255,255,0) );
-  circle.setPosition(sf::Vector2f(100.f, 300.f));
-  window.draw(circle);
+  chaste_palette_index=chaste_palette_index1;
+  chaste_font_draw_string_scaled_special(text,text_x,height/32,scale);
+  
+  chaste_palette_index1++;
+  if(chaste_palette_index1>=chaste_palette_length)
+  {
+   chaste_palette_index1=0;
+  }
 
-  circle.setFillColor(sf::Color(0,255,255) );
-  circle.setPosition(sf::Vector2f(300.f, 300.f));
-  window.draw(circle);
+ scale=width/300;
 
-  circle.setFillColor(sf::Color(255,0,255) );
-  circle.setPosition(sf::Vector2f(500.f, 300.f));
-  window.draw(circle);
+ sprintf(text,"Programming: Chastity White Rose");
+ chaste_font_draw_string_scaled(text,text_x,main_font.char_height*5*scale,scale);
 
-  //main_font.sprite.setColor(sf::Color(0,255,0)); // green
-  //window.draw(main_font.sprite);
-
-  sf::Sprite sp(main_font.texture);
-
-window.draw(sp);
-
-chaste_font_draw_string("hello",100,100);
-
-chaste_font_draw_string_scaled("world",100,300,8);
+ sprintf(text,"Inspiration:    River Black Rose");
+ chaste_font_draw_string_scaled(text,text_x,main_font.char_height*6*scale,scale);
 
 
-  window.display();
+ sprintf(text,"Email: chastitywhiterose@gmail.com");
+ chaste_font_draw_string_scaled(text,text_x,main_font.char_height*8*scale,scale);
+
+ sprintf(text,"Press Enter to Begin game.");
+ chaste_font_draw_string_scaled(text,text_x,height*10/16,scale);
+
+ scale=width/400;
+
+ sprintf(text,"https://www.patreon.com/ChastityWhiteRoseProgramming");
+ 
+ chaste_font_draw_string_scaled(text,text_x,height*7/16,scale);
+
+ scale=width/500;
+
+ sprintf(text,"All physics code in this game was written by Chastity White Rose using the\nC Programming Language. The font handling is done with the font library\nChastity wrote and named Chaste Font.\n\nSFML is used for the graphics API including rectangles and textures.\n\nCredit goes to Alexey Pajitnov for creating the original Tetris game which\nChaste Tris is based on. I also like to thank Henk Rogers for helping\nTetris become the worldwide hit that it is.");
+ 
+ chaste_font_draw_string_scaled(text,text_x,height*12/16,scale);
+
+ window.display();
 
   //polling section
   
@@ -58,14 +67,112 @@ chaste_font_draw_string_scaled("world",100,300,8);
    if(event.type == sf::Event::KeyPressed)
    {
     if(event.key.code==sf::Keyboard::Escape){loop=0;}
+    if(event.key.code==sf::Keyboard::Enter){loop=0;}
    }
   }
 
+  /*time loop used to slow the game down so users can see it*/
+  while(mill<mill1)
+  {
+   sftime=sfclock.getElapsedTime();
+   mill=sftime.asMilliseconds();
+  }
+
  }
+
 }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ int fps_current; /*only used when I am debugging the game*/
+
+ void chastetris_draw_stats()
+ {
+  int scale=8;
+
+  //printf("Drawing game stats\n");
+
+  /*text_x=main_font.char_height*1/2;*/
+  text_x=16;
+
+  scale=width/130;
+
+  chaste_palette_index=chaste_palette_index1;
+  chaste_font_draw_string_scaled_special("Chaste\n Tris",text_x,32,scale);
+  
+  chaste_palette_index1++;
+  if(chaste_palette_index1>=chaste_palette_length)
+  {
+   chaste_palette_index1=0;
+  }
+ 
+  scale=width/360;
+
+  sprintf(text,"Score %d",score);
+  chaste_font_draw_string_scaled(text,text_x,main_font.char_height*8*scale,scale);
+
+  sprintf(text,"Lines %d",lines_cleared_total);
+  chaste_font_draw_string_scaled(text,text_x,main_font.char_height*9*scale,scale);
+
+  sprintf(text,"This %c",main_block.id);
+  chaste_font_draw_string_scaled(text,text_x,main_font.char_height*10*scale,scale);
+
+  sprintf(text,"Hold %c",hold_block.id);
+  chaste_font_draw_string_scaled(text,text_x,main_font.char_height*11*scale,scale);
+
+  sprintf(text,"Move %d",moves);
+  chaste_font_draw_string_scaled(text,text_x,main_font.char_height*12*scale,scale);
+
+  sprintf(text,"B2B %d",back_to_back);
+  chaste_font_draw_string_scaled(text,text_x,main_font.char_height*13*scale,scale);
+
+  sprintf(text,"Combo %d",combo);
+  chaste_font_draw_string_scaled(text,text_x,main_font.char_height*14*scale,scale);
+
+  
+  time(&time1);
+  
+  seconds=time1-time0; /*subtract current time from start time to get seconds since game started*/
+  
+/* 
+  if(seconds!=0)
+  {
+   fps_current=frame/seconds;
+   sprintf(text,"FPS %d",fps_current);
+   chaste_font_draw_string(text,text_x,main_font.char_height*16);
+  }
+*/
+  
+  minutes=seconds/60;
+  seconds%=60;
+  hours=minutes/60;
+  minutes%=60;
+  
+  sprintf(text,"Time %d:%02d:%02d",hours,minutes,seconds);
+  chaste_font_draw_string_scaled(text,text_x,main_font.char_height*16*scale,scale);
+
+  /*sprintf(text,"Frame %d",frame);
+  chaste_font_draw_string_scaled(text,text_x,main_font.char_height*17*scale,scale);*/
+
+ }
 
 
 
@@ -190,7 +297,6 @@ void sfml_chastetris()
  printf("red=%d green=%d blue=%d\n",r,g,b);*/
 
 
-/*rect_color=SDL_MapRGB(surface->format,r,g,b);*/
 
 rectangle.setFillColor(sf::Color(r,g,b));
 
@@ -238,12 +344,10 @@ window.draw(rectangle);
 
  /*end of drawing code for grid*/
 
- //stats_func();
+ chastetris_draw_stats();
  //draw_input();
 
-
- /*optionally, get input from another file instead of keyboard if I have this enabled.*/
-  next_file_input();
+ window.display();
 
  /*test for events and only process if they exist*/
   while (window.pollEvent(event))
@@ -252,10 +356,10 @@ window.draw(rectangle);
    keyboard();
   }
 
- window.display();
+ /*optionally, get input from another file instead of keyboard if I have this enabled.*/
+  next_file_input();
 
  /*time loop used to slow the game down so users can see it*/
-
  while(mill<mill1)
  {
   sftime=sfclock.getElapsedTime();
